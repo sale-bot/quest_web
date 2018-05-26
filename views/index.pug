@@ -1,0 +1,56 @@
+- const gauge_wide = "160",gauge_high = "12";
+-
+  function nextEXPwide(player){
+    return Math.floor(gauge_wide * player.xp / (player.xp + player.at_xp));
+  }
+mixin list(player)
+  li
+    p.person__rank #{player.rank}位 #{player.user_name}
+    p.person__img <span class="cover" style="background-image :url(#{player.avatarurl})"></span>
+    p.person__lv level #{player.lv}
+    <div class="gauge">
+    img(src="/img/Gauge.png")
+    span
+      img(src="/img/GaugeBar.png" width=nextEXPwide(player) height=gauge_high)
+    </div>
+    p.person__atlv 次のレベルまで #{player.at_xp} (累積 #{player.xp_all})
+  li
+    h3.p.person__status  ステータス
+    p.person__status  ＨＰ #{player.hp} / #{player.hp_max}
+    p.person__status  攻撃 #{player.attack+(player.weapon_id == 2 ? " + 3" : "")} 
+      
+    p.person__status  防御 #{player.defence}
+    p.person__status  幸運 #{player.lucky}
+    p.person__status  素早 #{player.speed}
+  li
+    h3.person__wepon 装備
+    if player.weapon_id == 2
+      p.person__wepon きんのつるぎ
+    if player.lv >= 20
+      p.person__wepon XXのくんしょう
+
+html
+  head
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    title #{title}
+    link(rel="stylesheet" href="css/style.css")
+  body
+    h1 QUEST PLAYER DATA
+    //- h2 a(href="https://google.com" target="blank") Discord
+    //- each player in UserDatas
+  - for (var i = 0; i < UserDatas.length; i++)
+    - const player = UserDatas[i]
+      if i % 2 == 0
+        ul.person.personsub
+          +list(player)
+      else
+        ul.person.personmain
+          +list(player)
+
+<ul class="gauge_wrap">
+<li>
+<div><div class="gauge_main" style="width: 80%;"></div></div>
+</li>
+</ul>
+
